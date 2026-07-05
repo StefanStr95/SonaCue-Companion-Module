@@ -1,0 +1,29 @@
+{
+  "name": "companion-module-sonacue",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "format": "prettier -w .",
+    "test": "node test-module.js",
+    "package": "companion-module-build"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StefanStr95/companion-module-sonacue.git"
+  },
+  "engines": {
+    "node": "^22.20",
+    "yarn": "^4"
+  },
+  "dependencies": {
+    "@companion-module/base": "~1.12.1",
+    "osc": "^2.4.4"
+  },
+  "devDependencies": {
+    "@companion-module/tools": "^2.6.1",
+    "prettier": "^3.6.2"
+  },
+  "prettier": "@companion-module/tools/.prettierrc.json",
+  "packageManager": "yarn@4.10.3"
+}

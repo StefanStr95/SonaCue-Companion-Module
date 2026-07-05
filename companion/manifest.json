@@ -1,0 +1,35 @@
+{
+	"id": "sonacue",
+	"name": "SonaCue",
+	"shortname": "sonacue",
+	"manufacturer": "Stefan Strasser",
+	"products": [
+		"SonaCue"
+	],
+	"keywords": [
+		"sonacue",
+		"osc",
+		"playback",
+		"audio",
+		"show control",
+		"cue",
+		"live"
+	],
+	"version": "1.0.0",
+	"license": "MIT",
+	"description": "Control SonaCue show playback over OSC — GO/Stop/Next/Previous, select or fire tracks by index, and read back play state for button feedback.",
+	"repository": "https://github.com/StefanStr95/companion-module-sonacue",
+	"bugs": "https://github.com/StefanStr95/companion-module-sonacue/issues",
+	"maintainers": [
+		{
+			"name": "Stefan Strasser"
+		}
+	],
+	"legacyIds": [],
+	"runtime": {
+		"type": "node18",
+		"api": "nodejs-ipc",
+		"apiVersion": "0.0.0",
+		"entrypoint": "../main.js"
+	}
+}
