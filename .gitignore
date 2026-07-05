@@ -1,5 +1,6 @@
 node_modules/
 *.tgz
+pkg/
 .yarn/
 .pnp.*
 package-lock.json
