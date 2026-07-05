@@ -1,5 +1,6 @@
 {
 	"id": "sonacue",
+	"type": "connection",
 	"name": "SonaCue",
 	"shortname": "sonacue",
 	"manufacturer": "Stefan Strasser",
