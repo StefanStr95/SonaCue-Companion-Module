@@ -11,10 +11,16 @@ module.exports = function (self) {
 			text: 'GO',
 			size: '24',
 			color: combineRgb(255, 255, 255),
-			bgcolor: combineRgb(0, 0, 0),
+			bgcolor: combineRgb(0, 102, 0), // always green; brightens while playing
 		},
 		steps: [{ down: [{ actionId: 'go', options: {} }], up: [] }],
-		feedbacks: [{ feedbackId: 'isPlaying', options: {} }],
+		feedbacks: [
+			{
+				feedbackId: 'isPlaying',
+				options: {},
+				style: { bgcolor: combineRgb(0, 204, 0), color: combineRgb(255, 255, 255) },
+			},
+		],
 	}
 
 	presets['stop'] = {

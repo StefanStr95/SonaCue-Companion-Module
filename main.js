@@ -137,6 +137,7 @@ class SonaCueInstance extends InstanceBase {
 	 * then refreshes the feedbacks/variables/presets that depend on it. */
 	handleOscMessage(oscMsg) {
 		const args = oscMsg.args || []
+		this.log('debug', `OSC in: ${oscMsg.address} ${JSON.stringify(args)}`)
 		switch (oscMsg.address) {
 			case '/sonacue/status/playing':
 				this.playing = !!args[0]?.value
