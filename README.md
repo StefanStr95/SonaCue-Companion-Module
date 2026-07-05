@@ -23,7 +23,7 @@ store" below). Until then, install it from a downloaded package — no
 Developer mode needed:
 
 1. Download the latest `sonacue-X.Y.Z.tgz` from this repo's
-   [Releases page](https://github.com/StefanStr95/companion-module-sonacue/releases).
+   [Releases page](https://github.com/StefanStr95/SonaCue-Companion-Module/releases).
 2. In Companion, open the **Modules** page and use its **Import module
    package** option, then select the downloaded `.tgz`.
 3. Companion now lists "SonaCue" as an installed module — add a connection

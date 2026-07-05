@@ -19,8 +19,8 @@
 	"version": "1.0.0",
 	"license": "MIT",
 	"description": "Control SonaCue show playback over OSC — GO/Stop/Next/Previous, select or fire tracks by index, and read back play state for button feedback.",
-	"repository": "https://github.com/StefanStr95/companion-module-sonacue",
-	"bugs": "https://github.com/StefanStr95/companion-module-sonacue/issues",
+	"repository": "https://github.com/StefanStr95/SonaCue-Companion-Module",
+	"bugs": "https://github.com/StefanStr95/SonaCue-Companion-Module/issues",
 	"maintainers": [
 		{
 			"name": "Stefan Strasser"

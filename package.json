@@ -10,7 +10,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/StefanStr95/companion-module-sonacue.git"
+    "url": "git+https://github.com/StefanStr95/SonaCue-Companion-Module.git"
   },
   "engines": {
     "node": "^22.20",
