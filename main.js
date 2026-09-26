@@ -16,6 +16,10 @@ class SonaCueInstance extends InstanceBase {
 		this.currentTrackName = ''
 		this.mode = 'edit'
 		this.trackCount = 0
+		this.currentSectionIndex = 0
+		this.currentSectionName = ''
+		this.chaseEnabled = false
+		this.chaseStatus = 'off'
 	}
 
 	async init(config) {
@@ -162,6 +166,24 @@ class SonaCueInstance extends InstanceBase {
 				this.trackCount = args[0]?.value ?? 0
 				this.setVariableValues({ track_count: this.trackCount })
 				this.updatePresets() // the per-track "Song" preset range depends on this
+				break
+			case '/sonacue/status/section':
+				this.currentSectionIndex = args[0]?.value ?? 0
+				this.currentSectionName = args[1]?.value ?? ''
+				this.checkFeedbacks('currentSectionIs')
+				this.setVariableValues({
+					section_index: this.currentSectionIndex,
+					section_name: this.currentSectionName,
+				})
+				break
+			case '/sonacue/status/chase':
+				this.chaseEnabled = !!args[0]?.value
+				this.chaseStatus = args[1]?.value ?? (this.chaseEnabled ? 'no signal' : 'off')
+				this.checkFeedbacks('chaseEnabled', 'chaseStatusIs')
+				this.setVariableValues({
+					chase: this.chaseEnabled ? 'On' : 'Off',
+					chase_status: this.chaseStatus,
+				})
 				break
 			default:
 				break

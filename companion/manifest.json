@@ -14,11 +14,13 @@
 		"audio",
 		"show control",
 		"cue",
-		"live"
+		"live",
+		"timecode",
+		"chase"
 	],
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"license": "MIT",
-	"description": "Control SonaCue show playback over OSC — GO/Stop/Next/Previous, select or fire tracks by index, and read back play state for button feedback.",
+	"description": "Control SonaCue show playback over OSC — GO/Stop/Next/Previous/Panic, fire tracks and song sections by index, switch timecode chase, and read back play, section and chase state for button feedback.",
 	"repository": "https://github.com/StefanStr95/SonaCue-Companion-Module",
 	"bugs": "https://github.com/StefanStr95/SonaCue-Companion-Module/issues",
 	"maintainers": [

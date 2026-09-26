@@ -14,11 +14,21 @@ Listen Port, **Feedback Port** = SonaCue's Feedback Port.
 
 ## Actions
 
-GO · Stop · Play/Pause · Next Track · Previous Track · Select Track by Index ·
-GO Track by Index · Set Mode (Edit/Show)
+GO · Stop · Play/Pause · Next Track · Previous Track · Panic · Select Track by
+Index · GO Track by Index · Next Section · Previous Section · Jump to Section by
+Index · Timecode Chase (Toggle / On / Off) · Set Mode (Edit/Show)
+
+Chase "On" and "Toggle" resume a chase that SonaCue suspended after an Escape,
+Stop or Panic. In a locked show, chase can only be resumed, not switched.
 
 ## Feedbacks
 
-Playing · Current Track Is · Mode Is
+Playing · Current Track Is · Current Section Is · Mode Is · Chase On ·
+Chase Status Is (locked, freewheel, suspended, no signal, waiting, off)
 
-See the module's README for the full OSC address schema.
+## Variables
+
+`playing`, `current_track_name`, `current_track_index`, `track_count`, `mode`,
+`section_name`, `section_index`, `chase`, `chase_status`
+
+Section and chase feedback need SonaCue 2.0 (beta) or later.

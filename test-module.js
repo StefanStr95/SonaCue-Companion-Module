@@ -10,6 +10,10 @@ function makeSelf() {
 		currentTrackName: '',
 		mode: 'edit',
 		trackCount: 3,
+		currentSectionIndex: 0,
+		currentSectionName: '',
+		chaseEnabled: false,
+		chaseStatus: 'off',
 		sendOsc(address, args) {
 			sent.push({ address, args })
 		},
@@ -47,6 +51,19 @@ function makeSelf() {
 	self.actions.set_mode.callback({ options: { mode: 'show' } })
 	const mode = self._sent.find((m) => m.address === '/sonacue/mode')
 	assert.deepStrictEqual(mode.args, [{ type: 's', value: 'show' }])
+	self.actions.chase.callback({ options: { state: 'toggle' } })
+	self.actions.chase.callback({ options: { state: 'on' } })
+	self.actions.chase.callback({ options: { state: 'off' } })
+	const chase = self._sent.filter((m) => m.address === '/sonacue/chase')
+	assert.deepStrictEqual(
+		chase.map((m) => m.args),
+		[undefined, [{ type: 'i', value: 1 }], [{ type: 'i', value: 0 }]],
+	)
+
+	self.actions.section_jump.callback({ options: { index: '2' } })
+	const jump = self._sent.find((m) => m.address === '/sonacue/section/jump')
+	assert.deepStrictEqual(jump.args, [{ type: 'i', value: 2 }])
+	for (const id of ['panic', 'section_next', 'section_previous']) assert(self.actions[id], id + ' defined')
 	console.log('actions.js OK —', Object.keys(self.actions).length, 'actions')
 }
 
@@ -66,6 +83,13 @@ function makeSelf() {
 	self.mode = 'show'
 	assert.strictEqual(self.feedbacks.modeIs.callback({ options: { mode: 'show' } }), true)
 	assert.strictEqual(self.feedbacks.modeIs.callback({ options: { mode: 'edit' } }), false)
+	self.chaseEnabled = true
+	self.chaseStatus = 'locked'
+	assert.strictEqual(self.feedbacks.chaseEnabled.callback(), true)
+	assert.strictEqual(self.feedbacks.chaseStatusIs.callback({ options: { status: 'locked' } }), true)
+	assert.strictEqual(self.feedbacks.chaseStatusIs.callback({ options: { status: 'suspended' } }), false)
+	self.currentSectionIndex = 3
+	assert.strictEqual(self.feedbacks.currentSectionIs.callback({ options: { index: '3' } }), true)
 	console.log('feedbacks.js OK —', Object.keys(self.feedbacks).length, 'feedbacks')
 }
 
@@ -75,6 +99,8 @@ function makeSelf() {
 	require('./variables')(self)
 	assert(self.variableDefs.some((v) => v.variableId === 'playing'))
 	assert.strictEqual(self.variableValues.playing, 'No')
+	assert.strictEqual(self.variableValues.chase, 'Off')
+	assert(self.variableDefs.some((v) => v.variableId === 'section_name'))
 	console.log('variables.js OK —', self.variableDefs.length, 'variables')
 }
 
@@ -83,6 +109,7 @@ function makeSelf() {
 	const self = makeSelf()
 	require('./presets')(self)
 	assert(self.presets.go)
+	assert(self.presets.chase_toggle && self.presets.panic && self.presets.section_8)
 	assert(self.presets.song_1 && self.presets.song_3 && !self.presets.song_4, 'song presets match trackCount=3')
 	console.log('presets.js OK —', Object.keys(self.presets).length, 'presets')
 }

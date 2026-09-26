@@ -6,14 +6,24 @@ over UDP — no MIDI routing or IAC bus required.
 
 ## What it does
 
-- **Actions**: GO, Stop, Play/Pause, Next Track, Previous Track, Select Track by
-  Index, GO Track by Index, Set Mode (Edit/Show).
+- **Actions**: GO, Stop, Play/Pause, Next Track, Previous Track, Panic, Select
+  Track by Index, GO Track by Index, Next / Previous Section, Jump to Section by
+  Index, Timecode Chase (Toggle / On / Off), Set Mode (Edit/Show).
 - **Feedbacks**: `Playing` (button lights up while a track plays), `Current
-  Track Is` (highlights the active cue's button), `Mode Is` (Edit/Show).
+  Track Is` (highlights the active cue's button), `Current Section Is`, `Mode
+  Is` (Edit/Show), `Chase On`, `Chase Status Is` (locked / freewheel /
+  suspended / no signal / waiting / off).
 - **Variables**: `playing`, `current_track_name`, `current_track_index`, `mode`,
-  `track_count`.
-- **Presets**: ready-made GO/Stop/Next/Previous/Mode buttons, plus a "Song N"
-  button per known track (drag one per cue and Companion shows which is live).
+  `track_count`, `section_name`, `section_index`, `chase`, `chase_status`.
+- **Presets**: ready-made GO/Stop/Next/Previous/Panic/Mode buttons, a "Song N"
+  button per known track (drag one per cue and Companion shows which is live),
+  Previous/Next Section and "Section N" buttons that light up while the song is
+  in that section, a Chase button coloured by its state (green locked, yellow
+  freewheel, red suspended — press to resume), and a "Now" display with the cue
+  and section names.
+
+Section and chase feedback need SonaCue 2.0 (beta) or later; with an older
+SonaCue those buttons simply stay dark.
 
 ## Installing this module
 
@@ -88,6 +98,11 @@ Commands (Companion → SonaCue, sent to the Command Port):
 - `/sonacue/track/select i` — select track at 1-based index.
 - `/sonacue/track/go i` — select and fire track at 1-based index.
 - `/sonacue/mode s` — `"edit"` or `"show"`.
+- `/sonacue/panic` — stop everything at once.
+- `/sonacue/section/next`, `/sonacue/section/previous` — no args.
+- `/sonacue/section/jump i` — section at 1-based index of the playing cue.
+- `/sonacue/chase [i]` — 1 on, 0 off, no argument toggles (resumes a
+  suspended chase).
 
 Feedback (SonaCue → Companion, sent to the Feedback Port, only on real
 transport/selection changes):
@@ -95,3 +110,6 @@ transport/selection changes):
 - `/sonacue/status/track i s` (1-based index, name)
 - `/sonacue/status/mode s`
 - `/sonacue/status/trackCount i`
+- `/sonacue/status/section i s` (1-based section of the playing cue, 0 = none; name)
+- `/sonacue/status/chase i s` (0/1; locked, freewheel, suspended, no signal,
+  waiting or off)
