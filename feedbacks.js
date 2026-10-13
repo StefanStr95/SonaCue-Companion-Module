@@ -86,6 +86,60 @@ module.exports = function (self) {
 			],
 			callback: (feedback) => self.mode === feedback.options.mode,
 		},
+		clickOn: {
+			type: 'boolean',
+			name: 'Click On',
+			description: "True while the selected cue's click (the metronome beside the BPM) is on.",
+			defaultStyle: {
+				bgcolor: combineRgb(153, 102, 51),
+				color: combineRgb(255, 255, 255),
+			},
+			options: [],
+			callback: () => self.clickOn && self.clickAvailable,
+		},
+		setlistIs: {
+			type: 'boolean',
+			name: 'Setlist Is',
+			description: "True while setlist N (1-based, in the order of SonaCue's setlist menu) is showing; 0 = All Cues.",
+			defaultStyle: {
+				bgcolor: combineRgb(0, 102, 204),
+				color: combineRgb(255, 255, 255),
+			},
+			options: [
+				{
+					type: 'number',
+					id: 'index',
+					label: 'Setlist # (1-based, 0 = All Cues)',
+					min: 0,
+					max: 99,
+					default: 1,
+					required: true,
+				},
+			],
+			callback: (feedback) => self.setlistIndex === parseInt(feedback.options.index, 10),
+		},
+		remainingBelow: {
+			type: 'boolean',
+			name: 'Remaining Time Below',
+			description: 'True while a cue plays with no more than the given seconds left — a warning before the end.',
+			defaultStyle: {
+				bgcolor: combineRgb(153, 0, 0),
+				color: combineRgb(255, 255, 255),
+			},
+			options: [
+				{
+					type: 'number',
+					id: 'seconds',
+					label: 'Seconds',
+					min: 1,
+					max: 3600,
+					default: 30,
+					required: true,
+				},
+			],
+			callback: (feedback) =>
+				self.playing && self.remaining > 0 && self.remaining <= parseInt(feedback.options.seconds, 10),
+		},
 		chaseEnabled: {
 			type: 'boolean',
 			name: 'Chase On',

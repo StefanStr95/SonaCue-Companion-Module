@@ -8,22 +8,29 @@ over UDP — no MIDI routing or IAC bus required.
 
 - **Actions**: GO, Stop, Play/Pause, Next Track, Previous Track, Panic, Select
   Track by Index, GO Track by Index, Next / Previous Section, Jump to Section by
-  Index, Timecode Chase (Toggle / On / Off), Set Mode (Edit/Show).
+  Index, Timecode Chase (Toggle / On / Off), Click (Toggle / On / Off), Show
+  Setlist (by number or name; empty = All Cues), Set Mode (Edit/Show).
 - **Feedbacks**: `Playing` (button lights up while a track plays), `Current
   Track Is` (highlights the active cue's button), `Current Section Is`, `Mode
-  Is` (Edit/Show), `Chase On`, `Chase Status Is` (locked / freewheel /
-  suspended / no signal / waiting / off).
-- **Variables**: `playing`, `current_track_name`, `current_track_index`, `mode`,
-  `track_count`, `section_name`, `section_index`, `chase`, `chase_status`.
+  Is` (Edit/Show), `Click On`, `Setlist Is`, `Remaining Time Below` (a
+  warning before the cue ends), `Chase On`, `Chase Status Is` (locked /
+  freewheel / suspended / no signal / waiting / off).
+- **Variables**: `playing`, `current_track_name`, `current_track_index`,
+  `next_track_name`, `next_track_index`, `mode`, `track_count`, `section_name`,
+  `section_index`, `elapsed`, `remaining` (m:ss), `elapsed_seconds`,
+  `remaining_seconds`, `setlist_name`, `setlist_index`, `click`, `chase`,
+  `chase_status`.
 - **Presets**: ready-made GO/Stop/Next/Previous/Panic/Mode buttons, a "Song N"
   button per known track (drag one per cue and Companion shows which is live),
   Previous/Next Section and "Section N" buttons that light up while the song is
   in that section, a Chase button coloured by its state (green locked, yellow
-  freewheel, red suspended — press to resume), and a "Now" display with the cue
-  and section names.
+  freewheel, red suspended — press to resume), a "Now" display with the cue
+  and section names, a countdown that turns red for the last 30 seconds, an
+  elapsed-time display, a "Next up" display, a Click button lit while the click
+  is on, and All Cues / Setlist 1–4 buttons lit while their setlist shows.
 
-Section and chase feedback need SonaCue 2.0 (beta) or later; with an older
-SonaCue those buttons simply stay dark.
+Sections, panic, chase, click, setlists, the next cue and the time need SonaCue
+2.0 or later; with SonaCue 1.5 those buttons simply stay dark.
 
 ## Installing this module
 
@@ -103,9 +110,13 @@ Commands (Companion → SonaCue, sent to the Command Port):
 - `/sonacue/section/jump i` — section at 1-based index of the playing cue.
 - `/sonacue/chase [i]` — 1 on, 0 off, no argument toggles (resumes a
   suspended chase).
+- `/sonacue/click [i]` — the selected cue's click: 1 on, 0 off, no argument
+  toggles.
+- `/sonacue/setlist i` / `/sonacue/setlist s` — show setlist i (1-based) or the
+  one of that name; `/sonacue/setlist/all` — every cue.
 
-Feedback (SonaCue → Companion, sent to the Feedback Port, only on real
-transport/selection changes):
+Feedback (SonaCue → Companion, sent to the Feedback Port, only when a value
+changes):
 - `/sonacue/status/playing i` (0/1)
 - `/sonacue/status/track i s` (1-based index, name)
 - `/sonacue/status/mode s`
@@ -113,3 +124,8 @@ transport/selection changes):
 - `/sonacue/status/section i s` (1-based section of the playing cue, 0 = none; name)
 - `/sonacue/status/chase i s` (0/1; locked, freewheel, suspended, no signal,
   waiting or off)
+- `/sonacue/status/next i s` (what GO plays next; 0 and "" for none)
+- `/sonacue/status/setlist i s` (0 and "All Cues" for none)
+- `/sonacue/status/click i i` (on; whether the cue has a beat grid)
+- `/sonacue/status/time f f` (elapsed, remaining seconds, to the tenth — up
+  to 4× a second while a cue plays, nothing while it stands still)

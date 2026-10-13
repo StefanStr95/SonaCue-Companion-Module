@@ -119,6 +119,51 @@ module.exports = function (self) {
 				else self.sendOsc('/sonacue/chase')
 			},
 		},
+		click: {
+			name: 'Click',
+			description:
+				"Switch the selected cue's click (the metronome beside the BPM) on or off, or toggle it — heard at once. A cue without a beat grid has no click.",
+			options: [
+				{
+					type: 'dropdown',
+					id: 'state',
+					label: 'Click',
+					choices: [
+						{ id: 'toggle', label: 'Toggle' },
+						{ id: 'on', label: 'On' },
+						{ id: 'off', label: 'Off' },
+					],
+					default: 'toggle',
+				},
+			],
+			callback: async (event) => {
+				const state = event.options.state
+				if (state === 'on') self.sendOsc('/sonacue/click', [{ type: 'i', value: 1 }])
+				else if (state === 'off') self.sendOsc('/sonacue/click', [{ type: 'i', value: 0 }])
+				else self.sendOsc('/sonacue/click')
+			},
+		},
+		setlist: {
+			name: 'Show Setlist',
+			description:
+				'Show a setlist: its number (1-based, in the order of the setlist menu) or its name. Leave it empty for All Cues. GO, the track numbers and Next/Previous follow it at once.',
+			options: [
+				{
+					type: 'textinput',
+					id: 'setlist',
+					label: 'Setlist number or name (empty = All Cues)',
+					default: '1',
+					useVariables: true,
+				},
+			],
+			callback: async (event, context) => {
+				const raw = event.options.setlist ?? ''
+				const value = String(context?.parseVariablesInString ? await context.parseVariablesInString(raw) : raw).trim()
+				if (value === '') self.sendOsc('/sonacue/setlist/all')
+				else if (/^\d+$/.test(value)) self.sendOsc('/sonacue/setlist', [{ type: 'i', value: parseInt(value, 10) }])
+				else self.sendOsc('/sonacue/setlist', [{ type: 's', value }])
+			},
+		},
 		set_mode: {
 			name: 'Set Mode',
 			options: [

@@ -113,6 +113,132 @@ module.exports = function (self) {
 		],
 	}
 
+	// The time left in the playing cue, red for its last 30 seconds.
+	presets['countdown'] = {
+		type: 'button',
+		category: 'Status',
+		name: 'Countdown: remaining time',
+		style: {
+			text: '$(sonacue:remaining)',
+			size: '24',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [{ down: [], up: [] }],
+		feedbacks: [
+			{
+				feedbackId: 'remainingBelow',
+				options: { seconds: 30 },
+				style: { bgcolor: combineRgb(153, 0, 0), color: combineRgb(255, 255, 255) },
+			},
+		],
+	}
+
+	presets['elapsed'] = {
+		type: 'button',
+		category: 'Status',
+		name: 'Elapsed time',
+		style: {
+			text: '$(sonacue:elapsed)',
+			size: '24',
+			color: combineRgb(160, 160, 160),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [{ down: [], up: [] }],
+		feedbacks: [],
+	}
+
+	presets['next_up'] = {
+		type: 'button',
+		category: 'Status',
+		name: 'Next up',
+		style: {
+			text: 'NEXT\\n$(sonacue:next_track_name)',
+			size: '7',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [{ down: [], up: [] }],
+		feedbacks: [],
+	}
+
+	// The selected cue's click — lit while it is on.
+	presets['click_toggle'] = {
+		type: 'button',
+		category: 'Click',
+		name: 'Click On / Off',
+		style: {
+			text: 'CLICK\\n$(sonacue:click)',
+			size: '14',
+			color: combineRgb(160, 160, 160),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [{ down: [{ actionId: 'click', options: { state: 'toggle' } }], up: [] }],
+		feedbacks: [
+			{
+				feedbackId: 'clickOn',
+				options: {},
+				style: { bgcolor: combineRgb(153, 102, 51), color: combineRgb(255, 255, 255) },
+			},
+		],
+	}
+
+	// All Cues plus the first four setlists, each lit while it is showing.
+	presets['setlist_all'] = {
+		type: 'button',
+		category: 'Setlists',
+		name: 'All Cues',
+		style: {
+			text: 'ALL\\nCUES',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [{ down: [{ actionId: 'setlist', options: { setlist: '' } }], up: [] }],
+		feedbacks: [
+			{
+				feedbackId: 'setlistIs',
+				options: { index: 0 },
+				style: { bgcolor: combineRgb(0, 102, 204), color: combineRgb(255, 255, 255) },
+			},
+		],
+	}
+	for (let i = 1; i <= 4; i++) {
+		presets[`setlist_${i}`] = {
+			type: 'button',
+			category: 'Setlists',
+			name: `Setlist ${i}`,
+			style: {
+				text: `SETLIST ${i}`,
+				size: '14',
+				color: combineRgb(255, 255, 255),
+				bgcolor: combineRgb(0, 0, 0),
+			},
+			steps: [{ down: [{ actionId: 'setlist', options: { setlist: String(i) } }], up: [] }],
+			feedbacks: [
+				{
+					feedbackId: 'setlistIs',
+					options: { index: i },
+					style: { bgcolor: combineRgb(0, 102, 204), color: combineRgb(255, 255, 255) },
+				},
+			],
+		}
+	}
+
+	presets['setlist_now'] = {
+		type: 'button',
+		category: 'Setlists',
+		name: 'Setlist showing',
+		style: {
+			text: '$(sonacue:setlist_name)',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [{ down: [], up: [] }],
+		feedbacks: [],
+	}
+
 	// Chase: dim when off, blue on, green locked, yellow freewheel, red
 	// suspended (after Escape/Stop/Panic — pressing it again resumes).
 	presets['chase_toggle'] = {

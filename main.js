@@ -4,6 +4,7 @@ const UpdateActions = require('./actions')
 const UpdateFeedbacks = require('./feedbacks')
 const UpdateVariables = require('./variables')
 const UpdatePresets = require('./presets')
+const { formatTime } = require('./variables')
 
 class SonaCueInstance extends InstanceBase {
 	constructor(internal) {
@@ -20,6 +21,14 @@ class SonaCueInstance extends InstanceBase {
 		this.currentSectionName = ''
 		this.chaseEnabled = false
 		this.chaseStatus = 'off'
+		this.nextTrackIndex = 0
+		this.nextTrackName = ''
+		this.setlistIndex = 0
+		this.setlistName = 'All Cues'
+		this.clickOn = false
+		this.clickAvailable = false
+		this.elapsed = 0
+		this.remaining = 0
 	}
 
 	async init(config) {
@@ -183,6 +192,39 @@ class SonaCueInstance extends InstanceBase {
 				this.setVariableValues({
 					chase: this.chaseEnabled ? 'On' : 'Off',
 					chase_status: this.chaseStatus,
+				})
+				break
+			case '/sonacue/status/next':
+				this.nextTrackIndex = args[0]?.value ?? 0
+				this.nextTrackName = args[1]?.value ?? ''
+				this.setVariableValues({
+					next_track_index: this.nextTrackIndex,
+					next_track_name: this.nextTrackName,
+				})
+				break
+			case '/sonacue/status/setlist':
+				this.setlistIndex = args[0]?.value ?? 0
+				this.setlistName = args[1]?.value ?? 'All Cues'
+				this.checkFeedbacks('setlistIs')
+				this.setVariableValues({ setlist_index: this.setlistIndex, setlist_name: this.setlistName })
+				break
+			case '/sonacue/status/click':
+				this.clickOn = !!args[0]?.value
+				this.clickAvailable = !!args[1]?.value
+				this.checkFeedbacks('clickOn')
+				this.setVariableValues({ click: !this.clickAvailable ? 'No grid' : this.clickOn ? 'On' : 'Off' })
+				break
+			case '/sonacue/status/time':
+				// Sent up to four times a second while a cue plays, nothing while
+				// it stands still.
+				this.elapsed = args[0]?.value ?? 0
+				this.remaining = args[1]?.value ?? 0
+				this.checkFeedbacks('remainingBelow')
+				this.setVariableValues({
+					elapsed: formatTime(this.elapsed),
+					remaining: formatTime(this.remaining, Math.ceil),
+					elapsed_seconds: Math.floor(this.elapsed),
+					remaining_seconds: Math.ceil(this.remaining),
 				})
 				break
 			default:

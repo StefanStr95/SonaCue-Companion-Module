@@ -16,19 +16,24 @@ Listen Port, **Feedback Port** = SonaCue's Feedback Port.
 
 GO · Stop · Play/Pause · Next Track · Previous Track · Panic · Select Track by
 Index · GO Track by Index · Next Section · Previous Section · Jump to Section by
-Index · Timecode Chase (Toggle / On / Off) · Set Mode (Edit/Show)
+Index · Timecode Chase (Toggle / On / Off) · Click (Toggle / On / Off) · Show
+Setlist (number or name; empty = All Cues) · Set Mode (Edit/Show)
 
 Chase "On" and "Toggle" resume a chase that SonaCue suspended after an Escape,
 Stop or Panic. In a locked show, chase can only be resumed, not switched.
 
 ## Feedbacks
 
-Playing · Current Track Is · Current Section Is · Mode Is · Chase On ·
-Chase Status Is (locked, freewheel, suspended, no signal, waiting, off)
+Playing · Current Track Is · Current Section Is · Mode Is · Click On ·
+Setlist Is · Remaining Time Below (seconds) · Chase On · Chase Status Is
+(locked, freewheel, suspended, no signal, waiting, off)
 
 ## Variables
 
-`playing`, `current_track_name`, `current_track_index`, `track_count`, `mode`,
-`section_name`, `section_index`, `chase`, `chase_status`
+`playing`, `current_track_name`, `current_track_index`, `next_track_name`,
+`next_track_index`, `track_count`, `mode`, `section_name`, `section_index`,
+`elapsed`, `remaining` (m:ss), `elapsed_seconds`, `remaining_seconds`,
+`setlist_name`, `setlist_index`, `click`, `chase`, `chase_status`
 
-Section and chase feedback need SonaCue 2.0 (beta) or later.
+Sections, panic, chase, click, setlists, the next cue and the time need SonaCue
+2.0 or later.
