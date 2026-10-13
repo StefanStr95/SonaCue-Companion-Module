@@ -111,9 +111,10 @@ Commands (Companion → SonaCue, sent to the Command Port):
 - `/sonacue/chase [i]` — 1 on, 0 off, no argument toggles (resumes a
   suspended chase).
 - `/sonacue/click [i]` — the selected cue's click: 1 on, 0 off, no argument
-  toggles.
+  toggles (a 0 within half a second of a 1 is a push button's release).
 - `/sonacue/setlist i` / `/sonacue/setlist s` — show setlist i (1-based) or the
-  one of that name; `/sonacue/setlist/all` — every cue.
+  one of that name (as `status/setlist` sends it, "Untitled Setlist"
+  included); `/sonacue/setlist/all`, or the name "All Cues" — every cue.
 
 Feedback (SonaCue → Companion, sent to the Feedback Port, only when a value
 changes):
@@ -127,5 +128,6 @@ changes):
 - `/sonacue/status/next i s` (what GO plays next; 0 and "" for none)
 - `/sonacue/status/setlist i s` (0 and "All Cues" for none)
 - `/sonacue/status/click i i` (on; whether the cue has a beat grid)
-- `/sonacue/status/time f f` (elapsed, remaining seconds, to the tenth — up
-  to 4× a second while a cue plays, nothing while it stands still)
+- `/sonacue/status/time f f i` (elapsed, remaining seconds, to the tenth — up
+  to 4× a second while a cue plays, nothing while it stands still — and 1
+  while the cue will loop instead of reaching its end)

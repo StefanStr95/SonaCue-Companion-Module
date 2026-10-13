@@ -121,7 +121,8 @@ module.exports = function (self) {
 		remainingBelow: {
 			type: 'boolean',
 			name: 'Remaining Time Below',
-			description: 'True while a cue plays with no more than the given seconds left — a warning before the end.',
+			description:
+				'True while a cue plays with no more than the given seconds left — a warning before the end. Off while the cue loops (a vamp, a looping cue): its end is not coming yet.',
 			defaultStyle: {
 				bgcolor: combineRgb(153, 0, 0),
 				color: combineRgb(255, 255, 255),
@@ -138,7 +139,7 @@ module.exports = function (self) {
 				},
 			],
 			callback: (feedback) =>
-				self.playing && self.remaining > 0 && self.remaining <= parseInt(feedback.options.seconds, 10),
+				self.playing && !self.looping && self.remaining > 0 && self.remaining <= parseInt(feedback.options.seconds, 10),
 		},
 		chaseEnabled: {
 			type: 'boolean',

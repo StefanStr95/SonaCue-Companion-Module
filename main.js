@@ -29,6 +29,7 @@ class SonaCueInstance extends InstanceBase {
 		this.clickAvailable = false
 		this.elapsed = 0
 		this.remaining = 0
+		this.looping = false
 	}
 
 	async init(config) {
@@ -154,7 +155,9 @@ class SonaCueInstance extends InstanceBase {
 		switch (oscMsg.address) {
 			case '/sonacue/status/playing':
 				this.playing = !!args[0]?.value
-				this.checkFeedbacks('isPlaying')
+				// The countdown warning reads `playing` too: a cue stopped in its
+				// last seconds sends no more time, so this is its only update.
+				this.checkFeedbacks('isPlaying', 'remainingBelow')
 				this.setVariableValues({ playing: this.playing ? 'Yes' : 'No' })
 				break
 			case '/sonacue/status/track':
@@ -216,9 +219,11 @@ class SonaCueInstance extends InstanceBase {
 				break
 			case '/sonacue/status/time':
 				// Sent up to four times a second while a cue plays, nothing while
-				// it stands still.
+				// it stands still. The third argument is 1 while the cue will loop
+				// rather than reach its end.
 				this.elapsed = args[0]?.value ?? 0
 				this.remaining = args[1]?.value ?? 0
+				this.looping = !!args[2]?.value
 				this.checkFeedbacks('remainingBelow')
 				this.setVariableValues({
 					elapsed: formatTime(this.elapsed),

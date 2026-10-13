@@ -22,6 +22,7 @@ function makeSelf() {
 		clickAvailable: false,
 		elapsed: 0,
 		remaining: 0,
+		looping: false,
 		sendOsc(address, args) {
 			sent.push({ address, args })
 		},
@@ -139,6 +140,13 @@ const setlistTest = (async () => {
 	self.remaining = 12.4
 	assert.strictEqual(self.feedbacks.remainingBelow.callback({ options: { seconds: 30 } }), true)
 	assert.strictEqual(self.feedbacks.remainingBelow.callback({ options: { seconds: 10 } }), false)
+	self.looping = true
+	assert.strictEqual(
+		self.feedbacks.remainingBelow.callback({ options: { seconds: 30 } }),
+		false,
+		'no warning in a vamp',
+	)
+	self.looping = false
 	self.playing = false
 	assert.strictEqual(self.feedbacks.remainingBelow.callback({ options: { seconds: 30 } }), false)
 	console.log('feedbacks.js OK —', Object.keys(self.feedbacks).length, 'feedbacks')
