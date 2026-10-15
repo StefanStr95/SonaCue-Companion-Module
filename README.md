@@ -14,12 +14,13 @@ over UDP — no MIDI routing or IAC bus required.
   Track Is` (highlights the active cue's button), `Current Section Is`, `Mode
   Is` (Edit/Show), `Click On`, `Setlist Is`, `Remaining Time Below` (a
   warning before the cue ends), `Chase On`, `Chase Status Is` (locked /
-  freewheel / suspended / no signal / waiting / off).
+  freewheel / suspended / no signal / waiting / off), `Link: Main Lost`,
+  `Link: Following`.
 - **Variables**: `playing`, `current_track_name`, `current_track_index`,
   `next_track_name`, `next_track_index`, `mode`, `track_count`, `section_name`,
   `section_index`, `elapsed`, `remaining` (m:ss), `elapsed_seconds`,
   `remaining_seconds`, `setlist_name`, `setlist_index`, `click`, `chase`,
-  `chase_status`.
+  `chase_status`, `link_role`, `link_status`.
 - **Presets**: ready-made GO/Stop/Next/Previous/Panic/Mode buttons, a "Song N"
   button per known track (drag one per cue and Companion shows which is live),
   Previous/Next Section and "Section N" buttons that light up while the song is
@@ -27,10 +28,12 @@ over UDP — no MIDI routing or IAC bus required.
   freewheel, red suspended — press to resume), a "Now" display with the cue
   and section names, a countdown that turns red for the last 30 seconds, an
   elapsed-time display, a "Next up" display, a Click button lit while the click
-  is on, and All Cues / Setlist 1–4 buttons lit while their setlist shows.
+  is on, All Cues / Setlist 1–4 buttons lit while their setlist shows, and a
+  Link button with the SonaCue Link role and status (green while linked, red
+  when a backup has lost its main).
 
 Sections, panic, chase, click, setlists, the next cue and the time need SonaCue
-2.0 or later; with SonaCue 1.5 those buttons simply stay dark.
+2.0 or later, and the Link status a SonaCue with SonaCue Link; with SonaCue 1.5 those buttons simply stay dark.
 
 ## Installing this module
 
@@ -125,6 +128,9 @@ changes):
 - `/sonacue/status/section i s` (1-based section of the playing cue, 0 = none; name)
 - `/sonacue/status/chase i s` (0/1; locked, freewheel, suspended, no signal,
   waiting or off)
+- `/sonacue/status/link s s` (role: off, main or backup; status — on a main
+  waiting or followed, on a backup searching, needspin, connecting, following,
+  suspended, ready, denied or mainlost; problem when a main can't listen; off)
 - `/sonacue/status/next i s` (what GO plays next; 0 and "" for none)
 - `/sonacue/status/setlist i s` (0 and "All Cues" for none)
 - `/sonacue/status/click i i` (on; whether the cue has a beat grid)

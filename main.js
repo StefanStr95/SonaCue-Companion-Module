@@ -21,6 +21,8 @@ class SonaCueInstance extends InstanceBase {
 		this.currentSectionName = ''
 		this.chaseEnabled = false
 		this.chaseStatus = 'off'
+		this.linkRole = 'off'
+		this.linkStatus = 'off'
 		this.nextTrackIndex = 0
 		this.nextTrackName = ''
 		this.setlistIndex = 0
@@ -196,6 +198,12 @@ class SonaCueInstance extends InstanceBase {
 					chase: this.chaseEnabled ? 'On' : 'Off',
 					chase_status: this.chaseStatus,
 				})
+				break
+			case '/sonacue/status/link':
+				this.linkRole = args[0]?.value ?? 'off'
+				this.linkStatus = args[1]?.value ?? 'off'
+				this.checkFeedbacks('linkMainLost', 'linkFollowing')
+				this.setVariableValues({ link_role: this.linkRole, link_status: this.linkStatus })
 				break
 			case '/sonacue/status/next':
 				this.nextTrackIndex = args[0]?.value ?? 0

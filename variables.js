@@ -29,6 +29,11 @@ module.exports = function (self) {
 		{ variableId: 'click', name: 'Click of the Selected Cue (On/Off/No grid)' },
 		{ variableId: 'chase', name: 'Chase (On/Off)' },
 		{ variableId: 'chase_status', name: 'Chase Status (locked, freewheel, suspended, no signal, waiting, off)' },
+		{ variableId: 'link_role', name: 'SonaCue Link Role (off, main, backup)' },
+		{
+			variableId: 'link_status',
+			name: 'SonaCue Link Status (main: waiting, followed; backup: searching, needspin, connecting, following, suspended, ready, denied, mainlost; problem, off)',
+		},
 	])
 
 	self.setVariableValues({
@@ -50,6 +55,8 @@ module.exports = function (self) {
 		click: !self.clickAvailable ? 'No grid' : self.clickOn ? 'On' : 'Off',
 		chase: self.chaseEnabled ? 'On' : 'Off',
 		chase_status: self.chaseStatus,
+		link_role: self.linkRole,
+		link_status: self.linkStatus,
 	})
 }
 

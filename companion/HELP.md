@@ -26,14 +26,16 @@ Stop or Panic. In a locked show, chase can only be resumed, not switched.
 
 Playing · Current Track Is · Current Section Is · Mode Is · Click On ·
 Setlist Is · Remaining Time Below (seconds) · Chase On · Chase Status Is
-(locked, freewheel, suspended, no signal, waiting, off)
+(locked, freewheel, suspended, no signal, waiting, off) · Link: Main Lost ·
+Link: Following
 
 ## Variables
 
 `playing`, `current_track_name`, `current_track_index`, `next_track_name`,
 `next_track_index`, `track_count`, `mode`, `section_name`, `section_index`,
 `elapsed`, `remaining` (m:ss), `elapsed_seconds`, `remaining_seconds`,
-`setlist_name`, `setlist_index`, `click`, `chase`, `chase_status`
+`setlist_name`, `setlist_index`, `click`, `chase`, `chase_status`, `link_role`,
+`link_status`
 
 Sections, panic, chase, click, setlists, the next cue and the time need SonaCue
-2.0 or later.
+2.0 or later; the Link status needs a SonaCue with SonaCue Link.

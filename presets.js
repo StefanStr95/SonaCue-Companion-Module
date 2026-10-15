@@ -264,6 +264,33 @@ module.exports = function (self) {
 		],
 	}
 
+	// SonaCue Link: role and status, green while the link is up, red when a
+	// backup has lost its main — the cue for the audio switcher to change over.
+	presets['link_status'] = {
+		type: 'button',
+		category: 'Link',
+		name: 'Link Status',
+		style: {
+			text: 'LINK $(sonacue:link_role)\\n$(sonacue:link_status)',
+			size: '14',
+			color: combineRgb(160, 160, 160),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [{ down: [], up: [] }],
+		feedbacks: [
+			{
+				feedbackId: 'linkFollowing',
+				options: {},
+				style: { bgcolor: combineRgb(0, 128, 0), color: combineRgb(255, 255, 255) },
+			},
+			{
+				feedbackId: 'linkMainLost',
+				options: {},
+				style: { bgcolor: combineRgb(204, 0, 0), color: combineRgb(255, 255, 255) },
+			},
+		],
+	}
+
 	presets['section_previous'] = {
 		type: 'button',
 		category: 'Sections',

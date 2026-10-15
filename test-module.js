@@ -14,6 +14,8 @@ function makeSelf() {
 		currentSectionName: '',
 		chaseEnabled: false,
 		chaseStatus: 'off',
+		linkRole: 'off',
+		linkStatus: 'off',
 		nextTrackIndex: 0,
 		nextTrackName: '',
 		setlistIndex: 0,
@@ -129,6 +131,22 @@ const setlistTest = (async () => {
 	assert.strictEqual(self.feedbacks.chaseEnabled.callback(), true)
 	assert.strictEqual(self.feedbacks.chaseStatusIs.callback({ options: { status: 'locked' } }), true)
 	assert.strictEqual(self.feedbacks.chaseStatusIs.callback({ options: { status: 'suspended' } }), false)
+	assert.strictEqual(self.feedbacks.linkMainLost.callback(), false)
+	assert.strictEqual(self.feedbacks.linkFollowing.callback(), false)
+	self.linkRole = 'backup'
+	self.linkStatus = 'mainlost'
+	assert.strictEqual(self.feedbacks.linkMainLost.callback(), true)
+	assert.strictEqual(self.feedbacks.linkFollowing.callback(), false)
+	self.linkStatus = 'following'
+	assert.strictEqual(self.feedbacks.linkMainLost.callback(), false)
+	assert.strictEqual(self.feedbacks.linkFollowing.callback(), true)
+	self.linkRole = 'main'
+	self.linkStatus = 'followed'
+	assert.strictEqual(self.feedbacks.linkFollowing.callback(), true)
+	self.linkStatus = 'mainlost'
+	assert.strictEqual(self.feedbacks.linkMainLost.callback(), false, 'only a backup loses its main')
+	self.linkStatus = 'waiting'
+	assert.strictEqual(self.feedbacks.linkFollowing.callback(), false)
 	self.currentSectionIndex = 3
 	assert.strictEqual(self.feedbacks.currentSectionIs.callback({ options: { index: '3' } }), true)
 	self.clickOn = true
@@ -159,6 +177,8 @@ const setlistTest = (async () => {
 	assert(self.variableDefs.some((v) => v.variableId === 'playing'))
 	assert.strictEqual(self.variableValues.playing, 'No')
 	assert.strictEqual(self.variableValues.chase, 'Off')
+	assert.strictEqual(self.variableValues.link_role, 'off')
+	assert.strictEqual(self.variableValues.link_status, 'off')
 	assert(self.variableDefs.some((v) => v.variableId === 'section_name'))
 	assert.strictEqual(self.variableValues.remaining, '0:00')
 	assert.strictEqual(self.variableValues.setlist_name, 'All Cues')
@@ -178,7 +198,16 @@ const setlistTest = (async () => {
 	assert(self.presets.go)
 	assert(self.presets.chase_toggle && self.presets.panic && self.presets.section_8)
 	assert(self.presets.song_1 && self.presets.song_3 && !self.presets.song_4, 'song presets match trackCount=3')
-	for (const id of ['countdown', 'elapsed', 'next_up', 'click_toggle', 'setlist_all', 'setlist_4', 'setlist_now'])
+	for (const id of [
+		'countdown',
+		'elapsed',
+		'next_up',
+		'click_toggle',
+		'setlist_all',
+		'setlist_4',
+		'setlist_now',
+		'link_status',
+	])
 		assert(self.presets[id], id + ' preset')
 	console.log('presets.js OK —', Object.keys(self.presets).length, 'presets')
 }

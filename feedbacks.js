@@ -171,6 +171,30 @@ module.exports = function (self) {
 			],
 			callback: (feedback) => self.chaseStatus === feedback.options.status,
 		},
+		linkMainLost: {
+			type: 'boolean',
+			name: 'Link: Main Lost',
+			description: 'True while this SonaCue is a backup that has lost the main Mac it was following.',
+			defaultStyle: {
+				bgcolor: combineRgb(204, 0, 0),
+				color: combineRgb(255, 255, 255),
+			},
+			options: [],
+			callback: () => self.linkRole === 'backup' && self.linkStatus === 'mainlost',
+		},
+		linkFollowing: {
+			type: 'boolean',
+			name: 'Link: Following',
+			description: 'True while the link is up: a backup follows its main, or a main is followed by a backup.',
+			defaultStyle: {
+				bgcolor: combineRgb(0, 128, 0),
+				color: combineRgb(255, 255, 255),
+			},
+			options: [],
+			callback: () =>
+				(self.linkRole === 'backup' && self.linkStatus === 'following') ||
+				(self.linkRole === 'main' && self.linkStatus === 'followed'),
+		},
 	})
 }
 
