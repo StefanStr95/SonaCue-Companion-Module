@@ -162,6 +162,27 @@ module.exports = function (self) {
 		feedbacks: [],
 	}
 
+	// A playlist cue's title — lit while a playlist cue is loaded.
+	presets['playlist_title'] = {
+		type: 'button',
+		category: 'Status',
+		name: 'Playlist Title',
+		style: {
+			text: 'TITLE $(sonacue:title_index)/$(sonacue:title_count)\\n$(sonacue:title_name)',
+			size: '7',
+			color: combineRgb(160, 160, 160),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [{ down: [], up: [] }],
+		feedbacks: [
+			{
+				feedbackId: 'playlistLoaded',
+				options: {},
+				style: { bgcolor: combineRgb(204, 102, 85), color: combineRgb(255, 255, 255) },
+			},
+		],
+	}
+
 	// The selected cue's click — lit while it is on.
 	presets['click_toggle'] = {
 		type: 'button',

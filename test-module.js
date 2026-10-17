@@ -18,6 +18,9 @@ function makeSelf() {
 		linkStatus: 'off',
 		nextTrackIndex: 0,
 		nextTrackName: '',
+		titleIndex: 0,
+		titleCount: 0,
+		titleName: '',
 		setlistIndex: 0,
 		setlistName: 'All Cues',
 		clickOn: false,
@@ -147,6 +150,10 @@ const setlistTest = (async () => {
 	assert.strictEqual(self.feedbacks.linkMainLost.callback(), false, 'only a backup loses its main')
 	self.linkStatus = 'waiting'
 	assert.strictEqual(self.feedbacks.linkFollowing.callback(), false)
+	assert.strictEqual(self.feedbacks.playlistLoaded.callback(), false)
+	self.titleIndex = 2
+	self.titleCount = 5
+	assert.strictEqual(self.feedbacks.playlistLoaded.callback(), true)
 	self.currentSectionIndex = 3
 	assert.strictEqual(self.feedbacks.currentSectionIs.callback({ options: { index: '3' } }), true)
 	self.clickOn = true
@@ -179,6 +186,9 @@ const setlistTest = (async () => {
 	assert.strictEqual(self.variableValues.chase, 'Off')
 	assert.strictEqual(self.variableValues.link_role, 'off')
 	assert.strictEqual(self.variableValues.link_status, 'off')
+	assert.strictEqual(self.variableValues.title_name, '')
+	assert.strictEqual(self.variableValues.title_index, 0)
+	assert.strictEqual(self.variableValues.title_count, 0)
 	assert(self.variableDefs.some((v) => v.variableId === 'section_name'))
 	assert.strictEqual(self.variableValues.remaining, '0:00')
 	assert.strictEqual(self.variableValues.setlist_name, 'All Cues')
@@ -207,6 +217,7 @@ const setlistTest = (async () => {
 		'setlist_4',
 		'setlist_now',
 		'link_status',
+		'playlist_title',
 	])
 		assert(self.presets[id], id + ' preset')
 	console.log('presets.js OK —', Object.keys(self.presets).length, 'presets')

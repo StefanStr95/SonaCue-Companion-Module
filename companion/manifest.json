@@ -4,9 +4,7 @@
 	"name": "SonaCue",
 	"shortname": "sonacue",
 	"manufacturer": "Stefan Strasser",
-	"products": [
-		"SonaCue"
-	],
+	"products": ["SonaCue"],
 	"keywords": [
 		"sonacue",
 		"osc",
@@ -18,11 +16,13 @@
 		"timecode",
 		"chase",
 		"setlist",
-		"countdown"
+		"countdown",
+		"backup",
+		"playlist"
 	],
 	"version": "1.2.0",
 	"license": "MIT",
-	"description": "Control SonaCue show playback over OSC — GO/Stop/Next/Previous/Panic, fire tracks and song sections by index, switch timecode chase, the click and the setlist, and read back play, section, chase and click state, the next cue and a countdown for button feedback.",
+	"description": "Control SonaCue show playback over OSC — GO/Stop/Next/Previous/Panic, fire tracks and song sections by index, switch timecode chase, the click and the setlist, and read back play, section, chase, click and SonaCue Link state, the next cue, the playlist title and a countdown for button feedback.",
 	"repository": "https://github.com/StefanStr95/SonaCue-Companion-Module",
 	"bugs": "https://github.com/StefanStr95/SonaCue-Companion-Module/issues",
 	"maintainers": [

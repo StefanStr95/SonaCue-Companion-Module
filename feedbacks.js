@@ -171,6 +171,17 @@ module.exports = function (self) {
 			],
 			callback: (feedback) => self.chaseStatus === feedback.options.status,
 		},
+		playlistLoaded: {
+			type: 'boolean',
+			name: 'Playlist Cue Loaded',
+			description: 'True while a playlist cue (pre-show or intermission music) is loaded in SonaCue.',
+			defaultStyle: {
+				bgcolor: combineRgb(204, 102, 85),
+				color: combineRgb(255, 255, 255),
+			},
+			options: [],
+			callback: () => self.titleCount > 0,
+		},
 		linkMainLost: {
 			type: 'boolean',
 			name: 'Link: Main Lost',

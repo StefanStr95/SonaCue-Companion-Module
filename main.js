@@ -25,6 +25,9 @@ class SonaCueInstance extends InstanceBase {
 		this.linkStatus = 'off'
 		this.nextTrackIndex = 0
 		this.nextTrackName = ''
+		this.titleIndex = 0
+		this.titleCount = 0
+		this.titleName = ''
 		this.setlistIndex = 0
 		this.setlistName = 'All Cues'
 		this.clickOn = false
@@ -211,6 +214,19 @@ class SonaCueInstance extends InstanceBase {
 				this.setVariableValues({
 					next_track_index: this.nextTrackIndex,
 					next_track_name: this.nextTrackName,
+				})
+				break
+			case '/sonacue/status/title':
+				// A playlist cue's title in the graph: its number in the list, the
+				// list's length, its name — 0, 0 and "" for any other cue.
+				this.titleIndex = args[0]?.value ?? 0
+				this.titleCount = args[1]?.value ?? 0
+				this.titleName = args[2]?.value ?? ''
+				this.checkFeedbacks('playlistLoaded')
+				this.setVariableValues({
+					title_index: this.titleIndex,
+					title_count: this.titleCount,
+					title_name: this.titleName,
 				})
 				break
 			case '/sonacue/status/setlist':

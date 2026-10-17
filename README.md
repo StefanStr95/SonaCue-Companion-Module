@@ -15,12 +15,13 @@ over UDP — no MIDI routing or IAC bus required.
   Is` (Edit/Show), `Click On`, `Setlist Is`, `Remaining Time Below` (a
   warning before the cue ends), `Chase On`, `Chase Status Is` (locked /
   freewheel / suspended / no signal / waiting / off), `Link: Main Lost`,
-  `Link: Following`.
+  `Link: Following`, `Playlist Cue Loaded`.
 - **Variables**: `playing`, `current_track_name`, `current_track_index`,
   `next_track_name`, `next_track_index`, `mode`, `track_count`, `section_name`,
   `section_index`, `elapsed`, `remaining` (m:ss), `elapsed_seconds`,
   `remaining_seconds`, `setlist_name`, `setlist_index`, `click`, `chase`,
-  `chase_status`, `link_role`, `link_status`.
+  `chase_status`, `link_role`, `link_status`, `title_name`, `title_index`,
+  `title_count` (the title a playlist cue plays).
 - **Presets**: ready-made GO/Stop/Next/Previous/Panic/Mode buttons, a "Song N"
   button per known track (drag one per cue and Companion shows which is live),
   Previous/Next Section and "Section N" buttons that light up while the song is
@@ -30,10 +31,12 @@ over UDP — no MIDI routing or IAC bus required.
   elapsed-time display, a "Next up" display, a Click button lit while the click
   is on, All Cues / Setlist 1–4 buttons lit while their setlist shows, and a
   Link button with the SonaCue Link role and status (green while linked, red
-  when a backup has lost its main).
+  when a backup has lost its main), and a Playlist Title display (title N/M and
+  its name, lit while a playlist cue is loaded).
 
 Sections, panic, chase, click, setlists, the next cue and the time need SonaCue
-2.0 or later, and the Link status a SonaCue with SonaCue Link; with SonaCue 1.5 those buttons simply stay dark.
+2.0 or later, the Link status a SonaCue with SonaCue Link, and the playlist title a SonaCue
+with playlist cues; with SonaCue 1.5 those buttons simply stay dark.
 
 ## Installing this module
 
@@ -132,6 +135,8 @@ changes):
   waiting or followed, on a backup searching, needspin, connecting, following,
   suspended, ready, denied or mainlost; problem when a main can't listen; off)
 - `/sonacue/status/next i s` (what GO plays next; 0 and "" for none)
+- `/sonacue/status/title i i s` (a playlist cue's title: its number, the
+  list's length, its name; 0, 0 and "" for any other cue)
 - `/sonacue/status/setlist i s` (0 and "All Cues" for none)
 - `/sonacue/status/click i i` (on; whether the cue has a beat grid)
 - `/sonacue/status/time f f i` (elapsed, remaining seconds, to the tenth — up
